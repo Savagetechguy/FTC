@@ -61,6 +61,8 @@ public class Teleop extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private DcMotor leftFrontDrive = null;
     private DcMotor rightFrontDrive = null;
+    private DcMotor LeftShooter = null;
+    private DcMotor RightShooter = null;
     private Servo ServoLeftRoller = null;
     private Servo ServoRightRoller = null;
 
@@ -76,7 +78,9 @@ public class Teleop extends LinearOpMode {
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        ServoLeftRoller = hardwareMap.get(Servo.class, )
+        LeftShooter = hardwareMap.get(DcMotor.class, "LeftShooter");
+        RightShooter = hardwareMap.get(DcMotor.class, "RightShooter");
+        //ServoLeftRoller = hardwareMap.get(Servo.class, )
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -84,6 +88,8 @@ public class Teleop extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
+        LeftShooter.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
+        RightShooter.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -96,6 +102,8 @@ public class Teleop extends LinearOpMode {
             double rightBackPower;
             double leftFrontPower;
             double rightFrontPower;
+            double leftShooter;
+            double rightShooter;
 
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
@@ -104,6 +112,7 @@ public class Teleop extends LinearOpMode {
             // - This uses basic math to combine motions and is easier to drive straight.
             double Forward = -gamepad1.left_stick_y;
             double turn  =  gamepad1.right_stick_x;
+            boolean Shoot = gamepad1.a;
             leftBackPower    = Range.clip(Forward + turn, -1.0, 1.0) ;
             rightBackPower   = Range.clip(Forward - turn, -1.0, 1.0) ;
             leftFrontPower    = Range.clip(Forward + turn, -1.0, 1.0) ;
