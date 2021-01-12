@@ -68,7 +68,7 @@ public class Teleop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        telemetry.addData("Status", "Code Version = 1.0");
+        telemetry.addData("Status", "Code Version = WORK");
         telemetry.update();
 
         // Initialize the hardware variables. Note that the strings used here as parameters
