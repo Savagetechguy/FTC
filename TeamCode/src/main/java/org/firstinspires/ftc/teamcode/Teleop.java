@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -61,14 +62,13 @@ public class Teleop extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private DcMotor leftFrontDrive = null;
     private DcMotor rightFrontDrive = null;
-    private DcMotor LeftShooter = null;
-    private DcMotor RightShooter = null;
-    private Servo ServoLeftRoller = null;
-    private Servo ServoRightRoller = null;
+    private DcMotor Shooter = null;
+    private CRServo ServoLeftRoller = null;
+    private CRServo ServoRightRoller = null;
 
     @Override
     public void runOpMode() {
-        telemetry.addData("Status", "Code Version = WORK");
+        telemetry.addData("Status", "Code Version = WORK2");
         telemetry.update();
 
         // Initialize the hardware variables. Note that the strings used here as parameters
@@ -78,18 +78,19 @@ public class Teleop extends LinearOpMode {
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        LeftShooter = hardwareMap.get(DcMotor.class, "LeftShooter");
-        RightShooter = hardwareMap.get(DcMotor.class, "RightShooter");
-        //ServoLeftRoller = hardwareMap.get(Servo.class, )
+        //Shooter = hardwareMap.get(DcMotor.class, "RightShooter");
+        ServoLeftRoller = hardwareMap.get(CRServo.class, "ServoLeftRoller");
+        ServoRightRoller = hardwareMap.get(CRServo.class, "ServoRightRoller");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD); //Can be changed based on motor configuration
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
-        LeftShooter.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
-        RightShooter.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD); //Can be changed based on motor configuration
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); //Can be changed based on motor configuration
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD); //Can be changed based on motor configuration
+        //ServoLeftRoller.setDirection(CRServo.Direction.FORWARD);
+        //ServoRightRoller.setDirection(CRServo.Direction.REVERSE);
+        //Shooter.setDirection(DcMotor.Direction.FORWARD); //Can be changed based on motor configuration
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -102,31 +103,52 @@ public class Teleop extends LinearOpMode {
             double rightBackPower;
             double leftFrontPower;
             double rightFrontPower;
-            double leftShooter;
-            double rightShooter;
+            double ServoRightRollerPower;
+            double ServoLeftRollerPower;
+            //double ShooterPower;
 
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
-            double Forward = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
+            double LeftForward = -gamepad1.left_stick_y;
+            double LeftSide  =  gamepad1.left_stick_x;
+            double RightForward = -gamepad1.right_stick_y;
+            double RightSide  =  gamepad1.right_stick_x;
             boolean Shoot = gamepad1.a;
-            leftBackPower    = Range.clip(Forward + turn, -1.0, 1.0) ;
-            rightBackPower   = Range.clip(Forward - turn, -1.0, 1.0) ;
-            leftFrontPower    = Range.clip(Forward + turn, -1.0, 1.0) ;
-            rightFrontPower   = Range.clip(Forward - turn, -1.0, 1.0) ;
+            boolean Collect = gamepad1.b;
+            int CollectasInt;
+            if(Collect == true)
+            {
+                CollectasInt = 1;
+            } else
+            {
+                CollectasInt = 0;
+            }
+            //This is really cringe but I dont want to do math
+
+            leftBackPower    = Range.clip(LeftForward + LeftSide, -1.0, 1.0) ;
+            rightBackPower   = Range.clip(LeftForward - LeftSide, -1.0, 1.0) ;
+            leftFrontPower    = Range.clip(LeftForward + LeftSide, -1.0, 1.0) ;
+            rightFrontPower   = Range.clip(LeftForward - LeftSide, -1.0, 1.0) ;
+            ServoRightRollerPower  = CollectasInt;
+            ServoLeftRollerPower = CollectasInt;
+            //ShooterPower  = shootAsFloat;
 
             // Send calculated power to wheels
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
+            ServoRightRoller.setPower(1);
+            ServoLeftRoller.setPower(1);
+            //Shooter.setPower(shootAsFloat);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Frontleft (%.2f), Frontright (%.2f), Backright (%.2f), Backleft (%.2f)", leftFrontPower, rightFrontPower, rightBackPower, leftBackPower);
+            telemetry.addData("Servos", "" + Collect);
             telemetry.update();
         }
     }
