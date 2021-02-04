@@ -53,9 +53,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
+@TeleOp(name="2021 Teleop Single Controller", group="Linear Opmode")
 //@Disabled
-public class Teleop extends LinearOpMode {
+public class TeleopSingleController extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -93,9 +93,9 @@ public class Teleop extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); //Can be changed based on motor configuration
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
-        //ServoLeftRoller.setDirection(CRServo.Direction.FORWARD);
+        ServoLeftRoller.setDirection(CRServo.Direction.REVERSE);
         //ServoRightRoller.setDirection(CRServo.Direction.REVERSE);
-        Elevator.setDirection(DcMotorSimple.Direction.FORWARD);
+        Elevator.setDirection(DcMotorSimple.Direction.REVERSE);
         LeftShooter.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
         RightShooter.setDirection(DcMotor.Direction.FORWARD);
         // Wait for the game to start (driver presses PLAY)
@@ -158,10 +158,10 @@ public class Teleop extends LinearOpMode {
             //This is really cringe but I dont want to do math
 
                 //Left Stick
-                leftBackPower = Range.clip(LeftForward + LeftSide + RightSide, -1.0, 1.0);
-                rightBackPower = Range.clip(LeftForward - LeftSide - RightSide, -1.0, 1.0);
-                leftFrontPower = Range.clip(LeftForward - LeftSide + RightSide, -1.0, 1.0);
-                rightFrontPower = Range.clip(LeftForward + LeftSide - RightSide, -1.0, 1.0);
+                leftBackPower = Range.clip(LeftForward - LeftSide + RightSide, -1.0, 1.0);
+                rightBackPower = Range.clip(LeftForward + LeftSide - RightSide, -1.0, 1.0);
+                leftFrontPower = Range.clip(LeftForward + LeftSide + RightSide, -1.0, 1.0);
+                rightFrontPower = Range.clip(LeftForward - LeftSide - RightSide, -1.0, 1.0);
 
                 //Right stick
                 /*leftBackPowerRight = Range.clip(RightSide, -1.0, 1.0);
