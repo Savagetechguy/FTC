@@ -29,11 +29,13 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -51,9 +53,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="2021 Teleop Duel Controller", group="Linear Opmode")
+@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
 //@Disabled
-public class TeleopDuelController extends LinearOpMode {
+public class Teleop extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -91,9 +93,9 @@ public class TeleopDuelController extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); //Can be changed based on motor configuration
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
-        ServoLeftRoller.setDirection(CRServo.Direction.REVERSE);
+        //ServoLeftRoller.setDirection(CRServo.Direction.FORWARD);
         //ServoRightRoller.setDirection(CRServo.Direction.REVERSE);
-        Elevator.setDirection(DcMotorSimple.Direction.REVERSE);
+        Elevator.setDirection(DcMotorSimple.Direction.FORWARD);
         LeftShooter.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
         RightShooter.setDirection(DcMotor.Direction.FORWARD);
         // Wait for the game to start (driver presses PLAY)
@@ -126,9 +128,9 @@ public class TeleopDuelController extends LinearOpMode {
             double LeftForward = -gamepad1.left_stick_y;
             double LeftSide  =  gamepad1.left_stick_x;
             double RightSide  =  gamepad1.right_stick_x;
-            boolean Shoot = gamepad2.a;
-            boolean Collect = gamepad2.b;
-            boolean ElevatorControl = gamepad2.x;
+            boolean Shoot = gamepad1.a;
+            boolean Collect = gamepad1.b;
+            boolean ElevatorControl = gamepad1.x;
             int CollectasInt;
             int ShootasInt;
             int ElevatorasInt;
@@ -156,16 +158,10 @@ public class TeleopDuelController extends LinearOpMode {
             //This is really cringe but I dont want to do math
 
                 //Left Stick
-                leftBackPower = Range.clip(LeftForward - LeftSide + RightSide, -1.0, 1.0);
-                rightBackPower = Range.clip(LeftForward + LeftSide - RightSide, -1.0, 1.0);
-                leftFrontPower = Range.clip(LeftForward + LeftSide + RightSide, -1.0, 1.0);
-                rightFrontPower = Range.clip(LeftForward - LeftSide - RightSide, -1.0, 1.0);
-
-                //Right stick
-                /*leftBackPowerRight = Range.clip(RightSide, -1.0, 1.0);
-                rightBackPowerRight = Range.clip(-RightSide, -1.0, 1.0);
-                leftFrontPowerRight = Range.clip(-RightSide, -1.0, 1.0);
-                rightFrontPowerRight = Range.clip(RightSide, -1.0, 1.0);*/
+                leftBackPower = Range.clip(LeftForward + LeftSide + RightSide, -1.0, 1.0);
+                rightBackPower = Range.clip(LeftForward - LeftSide - RightSide, -1.0, 1.0);
+                leftFrontPower = Range.clip(LeftForward - LeftSide + RightSide, -1.0, 1.0);
+                rightFrontPower = Range.clip(LeftForward + LeftSide - RightSide, -1.0, 1.0);
 
             ServoRightRollerPower  = CollectasInt;
             ServoLeftRollerPower = CollectasInt;
