@@ -163,12 +163,6 @@ public class TeleopSingleController extends LinearOpMode {
                 leftFrontPower = Range.clip(LeftForward + LeftSide + RightSide, -1.0, 1.0);
                 rightFrontPower = Range.clip(LeftForward - LeftSide - RightSide, -1.0, 1.0);
 
-                //Right stick
-                /*leftBackPowerRight = Range.clip(RightSide, -1.0, 1.0);
-                rightBackPowerRight = Range.clip(-RightSide, -1.0, 1.0);
-                leftFrontPowerRight = Range.clip(-RightSide, -1.0, 1.0);
-                rightFrontPowerRight = Range.clip(RightSide, -1.0, 1.0);*/
-
             ServoRightRollerPower  = CollectasInt;
             ServoLeftRollerPower = CollectasInt;
             // Send calculated power to wheels
