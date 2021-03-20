@@ -53,9 +53,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
+@TeleOp(name="Auto", group="Linear Opmode")
 //@Disabled
-public class Teleop extends LinearOpMode {
+public class Auto extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -71,7 +71,7 @@ public class Teleop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        telemetry.addData("Status", "Code Version = Golden Master");
+        telemetry.addData("Status", "Code Version = Auto");
         telemetry.update();
 
         // Initialize the hardware variables. Note that the strings used here as parameters
@@ -93,100 +93,21 @@ public class Teleop extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); //Can be changed based on motor configuration
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
-        ServoLeftRoller.setDirection(CRServo.Direction.REVERSE);
+        //ServoLeftRoller.setDirection(CRServo.Direction.FORWARD);
         //ServoRightRoller.setDirection(CRServo.Direction.REVERSE);
-        Elevator.setDirection(DcMotorSimple.Direction.REVERSE);
-        LeftShooter.setDirection(DcMotor.Direction.FORWARD); //Can be changed based on motor configuration
-        RightShooter.setDirection(DcMotor.Direction.REVERSE);
+        Elevator.setDirection(DcMotorSimple.Direction.FORWARD);
+        LeftShooter.setDirection(DcMotor.Direction.REVERSE); //Can be changed based on motor configuration
+        RightShooter.setDirection(DcMotor.Direction.FORWARD);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
+        leftBackDrive.setPower(1);
+        rightBackDrive.setPower(1);
+        rightFrontDrive.setPower(1);
+        leftFrontDrive.setPower(1);
+        sleep(1800);
 
-            // Setup a variable for each drive wheel to save power level for telemetry
-            double leftBackPower;
-            double rightBackPower;
-            double leftFrontPower;
-            double rightFrontPower;
-            double leftBackPowerRight;
-            double rightBackPowerRight;
-            double leftFrontPowerRight;
-            double rightFrontPowerRight;
-            double ServoRightRollerPower;
-            double ServoLeftRollerPower;
-            double MotorLeftShooterPower;
-            double MotorRightShooterPower;
-
-
-            // Choose to drive using either Tank Mode, or POV Mode
-            // Comment out the method that's not used.  The default below is POV.
-
-            // POV Mode uses left stick to go forward, and right stick to turn.
-            // - This uses basic math to combine motions and is easier to drive straight.
-            double LeftForward = gamepad1.left_stick_y;
-            double LeftSide  =  -gamepad1.left_stick_x;
-            double RightSide  =  gamepad1.right_stick_x;
-            boolean Shoot = gamepad1.right_bumper;
-            boolean Collect = gamepad1.b;
-            boolean ElevatorControl = gamepad1.a;
-            int CollectasInt;
-            int ShootasInt;
-            int ElevatorasInt;
-            if(Collect == true)
-            {
-                CollectasInt = 1;
-            } else
-            {
-                CollectasInt = 0;
-            }
-            if(Shoot == true)
-            {
-                ShootasInt = 1;
-            } else
-            {
-                ShootasInt = 0;
-            }
-            if(ElevatorControl == true)
-            {
-                ElevatorasInt = 1;
-            } else
-            {
-                ElevatorasInt = 0;
-            }
-            //This is really cringe but I dont want to do math
-
-                //Left Stick
-                leftBackPower = Range.clip(LeftForward + LeftSide + RightSide, -1.0, 1.0);
-                rightBackPower = Range.clip(LeftForward - LeftSide - RightSide, -1.0, 1.0);
-                leftFrontPower = Range.clip(LeftForward - LeftSide + RightSide, -1.0, 1.0);
-                rightFrontPower = Range.clip(LeftForward + LeftSide - RightSide, -1.0, 1.0);
-
-                //Right stick
-                /*leftBackPowerRight = Range.clip(RightSide, -1.0, 1.0);
-                rightBackPowerRight = Range.clip(-RightSide, -1.0, 1.0);
-                leftFrontPowerRight = Range.clip(-RightSide, -1.0, 1.0);
-                rightFrontPowerRight = Range.clip(RightSide, -1.0, 1.0);*/
-
-            ServoRightRollerPower  = CollectasInt;
-            ServoLeftRollerPower = CollectasInt;
-            // Send calculated power to wheels
-            leftBackDrive.setPower(leftBackPower);
-            rightBackDrive.setPower(rightBackPower);
-            leftFrontDrive.setPower(leftFrontPower);
-            rightFrontDrive.setPower(rightFrontPower);
-            ServoRightRoller.setPower(ServoRightRollerPower);
-            ServoLeftRoller.setPower(ServoLeftRollerPower);
-            Elevator.setPower(ElevatorasInt);
-            LeftShooter.setPower(ShootasInt);
-            RightShooter.setPower(ShootasInt);
-
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("MotorsNEw", "Frontleft (%.2f), Frontright (%.2f), Backright (%.2f), Backleft (%.2f)", leftFrontPower, rightFrontPower, rightBackPower, leftBackPower);
-            telemetry.addData("Servos", "" + Collect);
-            telemetry.update();
-        }
     }
 }
