@@ -104,11 +104,16 @@ public class Auto extends LinearOpMode {
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
-        leftBackDrive.setPower(1);
-        rightBackDrive.setPower(1);
-        rightFrontDrive.setPower(1);
-        leftFrontDrive.setPower(1);
-        sleep(1800);
+        leftBackDrive.setPower(.5);
+        rightBackDrive.setPower(.5);
+        rightFrontDrive.setPower(.5);
+        leftFrontDrive.setPower(.5);
+        sleep(6500);
+        leftBackDrive.setPower(-.5);
+        rightBackDrive.setPower(-.5);
+        rightFrontDrive.setPower(-.5);
+        leftFrontDrive.setPower(-.5);
+        sleep(1250);
 
     }
 }

@@ -132,7 +132,7 @@ public class Teleop extends LinearOpMode {
             boolean Collect = gamepad1.b;
             boolean ElevatorControl = gamepad1.a;
             int CollectasInt;
-            int ShootasInt;
+            double ShootasInt;
             int ElevatorasInt;
             if(Collect == true)
             {
@@ -143,7 +143,7 @@ public class Teleop extends LinearOpMode {
             }
             if(Shoot == true)
             {
-                ShootasInt = 1;
+                ShootasInt = .8;
             } else
             {
                 ShootasInt = 0;
@@ -158,10 +158,10 @@ public class Teleop extends LinearOpMode {
             //This is really cringe but I dont want to do math
 
                 //Left Stick
-                leftBackPower = Range.clip(LeftForward + LeftSide + RightSide, -1.0, 1.0);
-                rightBackPower = Range.clip(LeftForward - LeftSide - RightSide, -1.0, 1.0);
-                leftFrontPower = Range.clip(LeftForward - LeftSide + RightSide, -1.0, 1.0);
-                rightFrontPower = Range.clip(LeftForward + LeftSide - RightSide, -1.0, 1.0);
+                leftBackPower = Range.clip(LeftForward - LeftSide + RightSide, -1.0, 1.0);
+                rightBackPower = Range.clip(LeftForward + LeftSide - RightSide, -1.0, 1.0);
+                leftFrontPower = Range.clip(LeftForward + LeftSide + RightSide, -1.0, 1.0);
+                rightFrontPower = Range.clip(LeftForward - LeftSide - RightSide, -1.0, 1.0);
 
                 //Right stick
                 /*leftBackPowerRight = Range.clip(RightSide, -1.0, 1.0);
