@@ -143,7 +143,7 @@ public class Teleop extends LinearOpMode {
             }
             if(Shoot == true)
             {
-                ShootasInt = .8;
+                ShootasInt = 1;
             } else
             {
                 ShootasInt = 0;

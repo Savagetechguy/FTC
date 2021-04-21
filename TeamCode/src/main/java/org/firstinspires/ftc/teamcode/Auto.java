@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -39,6 +41,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 
 /**
@@ -54,7 +57,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto", group="Linear Opmode")
+@TeleOp(name="Auto", group="Linear Opmode")
 //@Disabled
 public class Auto extends LinearOpMode {
 
@@ -69,6 +72,7 @@ public class Auto extends LinearOpMode {
     private DcMotor Elevator = null;
     private CRServo ServoLeftRoller = null;
     private CRServo ServoRightRoller = null;
+    private ColorSensor ColorSenser = null;
 
     @Override
     public void runOpMode() {
@@ -87,6 +91,7 @@ public class Auto extends LinearOpMode {
         Elevator = hardwareMap.get(DcMotor.class, "Elevator");
         ServoLeftRoller = hardwareMap.get(CRServo.class, "ServoLeftRoller");
         ServoRightRoller = hardwareMap.get(CRServo.class, "ServoRightRoller");
+        ColorSenser = hardwareMap.colorSensor.get("Color");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -104,7 +109,13 @@ public class Auto extends LinearOpMode {
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
-        leftBackDrive.setPower(.5);
+        while(opModeIsActive()) {
+            telemetry.addData("Red: ", ColorSenser.red());
+            telemetry.addData("Green: ", ColorSenser.green());
+            telemetry.addData("Blue: ", ColorSenser.blue());
+            telemetry.update();
+        }
+       /* leftBackDrive.setPower(.5);
         rightBackDrive.setPower(.5);
         rightFrontDrive.setPower(.5);
         leftFrontDrive.setPower(.5);
@@ -113,7 +124,7 @@ public class Auto extends LinearOpMode {
         rightBackDrive.setPower(-.5);
         rightFrontDrive.setPower(-.5);
         leftFrontDrive.setPower(-.5);
-        sleep(1250);
+        sleep(1250);*/
 
     }
 }
