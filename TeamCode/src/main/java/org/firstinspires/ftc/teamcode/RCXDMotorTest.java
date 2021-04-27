@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -87,35 +88,18 @@ public class RCXDMotorTest extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
-        // Reset the encoder during initialization
-        LeftBack.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
-
-
-        // Set the motor's target position to 300 ticks
-        LeftBack.setTargetPosition(3000);
-
         // Switch to RUN_TO_POSITION mode
-        LeftBack.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        LeftBack.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         // Start the motor moving by setting the max velocity to 200 ticks per second
-        LeftBack.setVelocity(200);
-
-
-        // Reset the encoder during initialization
-        RightBack.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        LeftBack.setVelocity(2979.32);
 
 
 
-        // Set the motor's target position to 300 ticks
-        RightBack.setTargetPosition(3000);
-
-        // Switch to RUN_TO_POSITION mode
-        RightBack.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        RightBack.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         // Start the motor moving by setting the max velocity to 200 ticks per second
-        RightBack.setVelocity(200);
+        RightBack.setVelocity(800);
 
         // run until the end of the match (driver presses STOP)
             // While the Op Mode is running, show the motor's status via telemetry
@@ -136,7 +120,7 @@ public class RCXDMotorTest extends LinearOpMode {
                 telemetry.addData("velocityRight", RightBack.getVelocity());
                 telemetry.addData("positionRight", RightBack.getCurrentPosition());
                 telemetry.addData("is at target Right", !RightBack.isBusy());
-                telemetry.addData("Timer Left", Right);
+                telemetry.addData("Timer Right", Right);
                 telemetry.update();
             }
 

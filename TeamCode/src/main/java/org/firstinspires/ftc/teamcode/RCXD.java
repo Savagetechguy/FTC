@@ -64,32 +64,27 @@ public class RCXD extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
-    private CRServo LeftBack = null;
-    private CRServo RightBack = null;
-    private CRServo LeftFront = null;
-    private CRServo RightFront = null;
+    private DcMotor Left = null;
+    private DcMotor Right = null;
 
     @Override
     public void runOpMode() {
-        telemetry.addData("Status", "Code Version = Auto");
+        telemetry.addData("Status", "Code Version = Epic gamer dream with the map packs and the special edition console wild dogs unleashed");
         telemetry.update();
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
 
-        LeftBack = hardwareMap.get(CRServo.class, "LeftBack");
-        RightBack = hardwareMap.get(CRServo.class, "RightBack");
-        LeftFront = hardwareMap.get(CRServo.class, "LeftFront");
-        RightFront = hardwareMap.get(CRServo.class, "RightFront");
+        Left = hardwareMap.get(DcMotor.class, "Left");
+        Right = hardwareMap.get(DcMotor.class, "Right");
 
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the batter
         //ServoLeftRoller.setDirection(CRServo.Direction.FORWARD);
         //ServoRightRoller.setDirection(CRServo.Direction.REVERSE);
-        RightFront.setDirection(CRServo.Direction.REVERSE);
-        RightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        Right.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -100,20 +95,14 @@ public class RCXD extends LinearOpMode {
             double LeftForward = gamepad1.left_stick_y;
             double LeftSide  =  -gamepad1.left_stick_x;
 
-            double leftBackPower;
-            double rightBackPower;
-            double leftFrontPower;
-            double rightFrontPower;
+            double leftPower;
+            double rightPower;
 
-            leftBackPower = Range.clip(LeftForward - LeftSide, -1.0, 1.0);
-            rightBackPower = Range.clip(LeftForward + LeftSide, -1.0, 1.0);
-            leftFrontPower = Range.clip(LeftForward - LeftSide, -1.0, 1.0);
-            rightFrontPower = Range.clip(LeftForward + LeftSide, -1.0, 1.0);
+            leftPower = Range.clip(LeftForward - LeftSide, -1.0, 1.0);
+            rightPower = Range.clip(LeftForward + LeftSide, -1.0, 1.0);
 
-            LeftFront.setPower(leftFrontPower);
-            LeftBack.setPower(leftBackPower);
-            RightFront.setPower(rightFrontPower);
-            RightBack.setPower(rightBackPower);
+            Right.setPower(rightPower);
+            Left.setPower(leftPower);
 
         }
 
