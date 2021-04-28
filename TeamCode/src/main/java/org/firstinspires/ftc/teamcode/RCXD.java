@@ -82,8 +82,6 @@ public class RCXD extends LinearOpMode {
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the batter
-        //ServoLeftRoller.setDirection(CRServo.Direction.FORWARD);
-        //ServoRightRoller.setDirection(CRServo.Direction.REVERSE);
         Right.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
