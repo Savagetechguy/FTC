@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 
 /**
@@ -57,6 +58,7 @@ public class RCXD extends LinearOpMode {
 
     private DcMotor Left = null;
     private DcMotor Right = null;
+    private CRServo Turn = null;
 
     @Override
     public void runOpMode() {
@@ -69,6 +71,7 @@ public class RCXD extends LinearOpMode {
 
         Left = hardwareMap.get(DcMotor.class, "Left");
         Right = hardwareMap.get(DcMotor.class, "Right");
+        Turn = hardwareMap.get(CRServo.class, "Turn");
 
 
         // Most robots need the motor on one side to be reversed to drive forward
@@ -83,15 +86,20 @@ public class RCXD extends LinearOpMode {
         while(opModeIsActive()) {
             double LeftForward = gamepad1.left_stick_y;
             double LeftSide  =  -gamepad1.left_stick_x;
+            double RightSide  =  -gamepad1.right_stick_x;
+
 
             double leftPower;
             double rightPower;
+            double servoPower;
 
             leftPower = Range.clip(LeftForward - LeftSide, -1.0, 1.0);
             rightPower = Range.clip(LeftForward + LeftSide, -1.0, 1.0);
+            servoPower = Range.clip(RightSide, -1.0, 1.0);
 
             Right.setPower(rightPower);
             Left.setPower(leftPower);
+            Turn.setPower(servoPower);
 
         }
 
