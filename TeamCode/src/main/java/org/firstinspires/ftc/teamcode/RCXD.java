@@ -89,6 +89,7 @@ public class RCXD extends LinearOpMode {
             double RightSide  =  -gamepad1.left_stick_x;
             float RightTrigger = -gamepad1.right_trigger;
             float LeftTrigger = gamepad1.left_trigger;
+            boolean a = gamepad1.a;
 
 
             double leftPower;
@@ -98,14 +99,13 @@ public class RCXD extends LinearOpMode {
 
             leftPower = Range.clip(RightTrigger + LeftTrigger, -1.0, 1.0);
             rightPower = Range.clip(RightTrigger + LeftTrigger, -1.0, 1.0);
-            servoPower = RightSide;
-            servoPower = servoPower * .001;
+            servoPower = RightSide / 2;
+            servoPower = servoPower + .53;
 
+            Turn.setPosition( servoPower);
             Right.setPower(rightPower);
             Left.setPower(leftPower);
-            Turn.setPosition( servoPower + Turn.getPosition());
-            //sleep(1);
-            //idle();
+
             telemetry.addData("Build different", servoPower);
             telemetry.update();
 
