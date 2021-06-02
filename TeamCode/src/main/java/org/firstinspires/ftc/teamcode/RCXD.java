@@ -86,7 +86,7 @@ public class RCXD extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while(opModeIsActive()) {
-            double RightSide  =  -gamepad1.left_stick_x;
+            double RightSide  =  gamepad1.left_stick_x;
             float RightTrigger = -gamepad1.right_trigger;
             float LeftTrigger = gamepad1.left_trigger;
             boolean a = gamepad1.a;
@@ -96,17 +96,24 @@ public class RCXD extends LinearOpMode {
             double rightPower;
             double servoPower;
 
-
+//.367  .708
             leftPower = Range.clip(RightTrigger + LeftTrigger, -1.0, 1.0);
             rightPower = Range.clip(RightTrigger + LeftTrigger, -1.0, 1.0);
             servoPower = RightSide / 2;
-            servoPower = servoPower + .53;
-
+            servoPower = servoPower + .55;
+            if(servoPower <= .367)
+            {
+                servoPower = .367;
+            }
+            if(servoPower >= .708)
+            {
+                servoPower = .708;
+            }
             Turn.setPosition( servoPower);
             Right.setPower(rightPower);
             Left.setPower(leftPower);
 
-            telemetry.addData("Build different", servoPower);
+            telemetry.addData("Build different", Turn.getPosition());
             telemetry.update();
 
         }
